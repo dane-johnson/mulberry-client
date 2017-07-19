@@ -1,0 +1,9 @@
+# Ignore yarn stuff
+yarn-error.log
+yarn.lock
+
+# Ignore the git ignore file
+.gitignore
+
+# Ignore coffeescript source files
+src/
