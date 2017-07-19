@@ -5,6 +5,7 @@ uuid = ''
 roomcode = null
 gamestate = {}
 update = null
+socket = null
 
 
 connect = () ->
@@ -14,7 +15,6 @@ connect = () ->
   socket.on 'connect', ->
     socket.emit if not roomcode? then 'screen' else 'player'
 
-  
   getgamestate = () ->
     obj = {}
     _.assign(obj, gamestate)
@@ -27,12 +27,12 @@ connect = () ->
     uuid = data
   socket.on 'update', (data) ->
     if update?
-      update state()  
+      update state()
 
   gamestate: getgamestate
   roomcode: getroomcode
-  emit: socket.emit
-  on: socket.on
+  emit: socket.emit.bind(socket)
+  on: socket.on.bind(socket)
 
 module.exports =
   connect: connect
