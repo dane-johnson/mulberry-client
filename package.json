@@ -1,0 +1,9 @@
+{
+  "name": "mulberry-client",
+  "version": "0.1.0",
+  "description": "Client-side library for Mulberry game platform",
+  "main": "index.js",
+  "repository": "git@github.com:dane-johnson/mulberry-client",
+  "author": "Dane Johnson",
+  "license": "MIT"
+}
