@@ -5,5 +5,17 @@
   "main": "index.js",
   "repository": "git@github.com:dane-johnson/mulberry-client",
   "author": "Dane Johnson",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "start": "jitter src/ lib/",
+    "build": "coffee -co lib/ src/"
+  },
+  "dependencies": {
+    "lodash": "^4.17.4",
+    "socket.io-client": "^2.0.3"
+  },
+  "devDependencies": {
+    "coffeescript": "^1.12.7",
+    "jitter": "^1.3.0"
+  }
 }
