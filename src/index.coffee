@@ -4,8 +4,10 @@ io = require 'socket.io-client'
 uuid = ''
 roomcode = null
 gamestate = {}
-update = null
 socket = null
+
+update = (data) ->
+  _.assign(gamestate, data)
 
 
 connect = () ->
@@ -26,8 +28,7 @@ connect = () ->
   socket.on 'uuid', (data) ->
     uuid = data
   socket.on 'update', (data) ->
-    if update?
-      update state()
+    update(data)
 
   gamestate: getgamestate
   roomcode: getroomcode
