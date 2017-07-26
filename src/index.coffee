@@ -5,10 +5,19 @@ uuid = ''
 roomcode = null
 gamestate = {}
 socket = null
+updateListeners = []
 
 update = (data) ->
   _.assign(gamestate, data)
+  updateListeners.forEach (listener) ->
+    listener(gamestate)
 
+register = (listener) ->
+  updateListeners.push listener
+
+emit = (action, data = {}) ->
+  data.uuid = uuid
+  socket.emit action, data
 
 connect = () ->
   socket = io()
@@ -32,8 +41,8 @@ connect = () ->
 
   gamestate: getgamestate
   roomcode: getroomcode
-  emit: socket.emit.bind(socket)
-  on: socket.on.bind(socket)
+  emit: emit
+  register: register
 
 module.exports =
   connect: connect
