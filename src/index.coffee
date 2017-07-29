@@ -15,10 +15,6 @@ update = (data) ->
 register = (listener) ->
   updateListeners.push listener
 
-emit = (action, data = {}) ->
-  data.uuid = uuid
-  socket.emit action, data
-
 connect = () ->
   socket = io()
   
@@ -41,7 +37,7 @@ connect = () ->
 
   gamestate: getgamestate
   roomcode: getroomcode
-  emit: emit
+  emit: socket.emit.bind socket
   register: register
 
 module.exports =
