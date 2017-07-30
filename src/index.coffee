@@ -6,14 +6,22 @@ roomcode = null
 gamestate = {}
 socket = null
 updateListeners = []
+resetListeners = []
 
 update = (data) ->
   _.assign(gamestate, data)
   updateListeners.forEach (listener) ->
-    listener(gamestate)
+    listener gamestate
 
-register = (listener) ->
+reset = ->
+  resetListeners.forEach (listener) ->
+    listener()
+
+onUpdate = (listener) ->
   updateListeners.push listener
+
+onReset = (listener) ->
+  resetListeners.push listener
 
 connect = () ->
   socket = io()
@@ -21,6 +29,10 @@ connect = () ->
   roomcode = location.pathname.match( /\/(.*)/ )[1] || null
   socket.on 'connect', ->
     socket.emit if not roomcode? then 'screen' else 'player'
+    socket.emit 'init'
+
+  socket.on 'reset', ->
+    gamestate = {}
     socket.emit 'init'
 
   getgamestate = () ->
@@ -34,12 +46,15 @@ connect = () ->
   socket.on 'uuid', (data) ->
     uuid = data
   socket.on 'update', (data) ->
-    update(data)
+    update data
+  socket.on 'reset', ->
+    reset()
 
   gamestate: getgamestate
   roomcode: getroomcode
   emit: socket.emit.bind socket
-  register: register
+  onUpdate: onUpdate
+  onReset: onReset
 
 module.exports =
   connect: connect
