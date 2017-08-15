@@ -27,7 +27,6 @@ onReset = (listener) ->
 connect = () ->
   socket = io()
   
-  
   roomcode = location.pathname.match( /\/(.*)/ )[1] || null
   socket.on 'connect', ->
     if not roomcode?
