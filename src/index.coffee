@@ -30,8 +30,10 @@ connect = () ->
   
   roomcode = location.pathname.match( /\/(.*)/ )[1] || null
   socket.on 'connect', ->
-    socket.emit if not roomcode? then 'screen' else 'player'
-    socket.emit 'init', uuid
+    if not roomcode?
+      socket.emit 'screen'
+    else
+      socket.emit 'player', uuid
 
   socket.on 'reset', ->
     gamestate = {}
@@ -48,6 +50,7 @@ connect = () ->
   socket.on 'uuid', (data) ->
     uuid = data
     cookie.set 'uuid', uuid
+    socket.emit 'init'
   socket.on 'update', (data) ->
     update data
   socket.on 'reset', ->
