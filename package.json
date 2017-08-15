@@ -11,6 +11,7 @@
     "build": "coffee -co lib/ src/"
   },
   "dependencies": {
+    "js-cookie": "^2.1.4",
     "lodash": "^4.17.4",
     "socket.io-client": "^2.0.3"
   },

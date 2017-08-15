@@ -1,7 +1,8 @@
 _ = require 'lodash'
 io = require 'socket.io-client'
+cookie = require 'js-cookie'
 
-uuid = ''
+uuid = cookie.get('uuid')
 roomcode = null
 gamestate = {}
 socket = null
@@ -26,10 +27,11 @@ onReset = (listener) ->
 connect = () ->
   socket = io()
   
+  
   roomcode = location.pathname.match( /\/(.*)/ )[1] || null
   socket.on 'connect', ->
     socket.emit if not roomcode? then 'screen' else 'player'
-    socket.emit 'init'
+    socket.emit 'init', uuid
 
   socket.on 'reset', ->
     gamestate = {}
@@ -45,6 +47,7 @@ connect = () ->
 
   socket.on 'uuid', (data) ->
     uuid = data
+    cookie.set 'uuid', uuid
   socket.on 'update', (data) ->
     update data
   socket.on 'reset', ->
